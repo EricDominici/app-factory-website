@@ -1,0 +1,60 @@
+/* Estilos responsivos */
+@media (max-width: 1024px) {
+    .navbar .nav-links {
+        display: none; /* Ocultar los enlaces en pantallas más pequeñas */
+    }
+
+    .navbar #toggle-dark-mode {
+        display: block; /* Mostrar el botón de modo oscuro */
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+    }
+
+    .navbar .logo {
+        margin-bottom: 1rem;
+    }
+
+    .navbar .nav-links {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin: 0;
+    }
+
+    .search-filter {
+        flex-direction: column;
+    }
+
+    .search-filter input,
+    .search-filter select {
+        width: 100%;
+    }
+
+    .product-grid,
+    .portfolio-grid {
+        flex-direction: column;
+    }
+
+    .hero {
+        padding: 4rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h3 {
+        font-size: 2rem;
+    }
+
+    .hero p {
+        font-size: 0.9rem;
+    }
+
+    .product-card,
+    .portfolio-card {
+        width: 100%;
+    }
+}

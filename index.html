@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Factory</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">App Factory</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><button id="toggle-dark-mode">Toggle Dark Mode</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <h3>Welcome to App Factory</h3>
+        <p>Discover our innovative applications and meet the team behind them.</p>
+    </section>
+
+    <section id="products" class="products">
+        <h2>Our Products</h2>
+        <div class="search-filter">
+            <input type="text" id="search-bar" placeholder="Search products...">
+            <select id="filter-select">
+                <option value="">All Categories</option>
+                <option value="category1">Category 1</option>
+                <option value="category2">Category 2</option>
+            </select>
+            <button id="add-product-btn">Add Product</button>
+        </div>
+        <div class="product-grid">
+            <!-- Product Cards will be injected here by JavaScript -->
+        </div>
+    </section>
+
+    <section id="portfolio" class="portfolio">
+        <h2>Meet the Team</h2>
+        <div class="search-filter">
+            <input type="text" id="search-bar-portfolio" placeholder="Search profiles...">
+            <select id="filter-select-portfolio">
+                <option value="">All Roles</option>
+                <option value="developer">Developer</option>
+                <option value="designer">Designer</option>
+            </select>
+            <button id="add-profile-btn">Add Profile</button>
+        </div>
+        <div class="portfolio-grid">
+            <!-- Portfolio Cards will be injected here by JavaScript -->
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2>Contact Us</h2>
+        <form id="contact-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required></textarea>
+            
+            <button type="submit">Send</button>
+        </form>
+    </section>
+
+    <script type="module" src="scripts/main.js"></script>
+</body>
+</html>
