@@ -1,24 +1,28 @@
 /* Animations */
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
-.modal-content {
-    animation: fadeIn 0.3s;
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
 }
 
 @keyframes slideUp {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
-.product-card, .portfolio-card {
-    animation: fadeIn var(--transition-time) ease-out;
+.slide-up {
+    animation: slideUp 0.5s ease-out;
 }
-
-.modal-content {
-    animation: slideUp var(--transition-time) ease-out;
-}
-
-
