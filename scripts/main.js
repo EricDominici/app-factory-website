@@ -2,19 +2,16 @@
 
 import { createProductCard, createPortfolioCard } from './interactions.js';
 
-// Example data
 const products = [
     {
         name: "Product 1",
         description: "Description for Product 1",
-        image: "images/product1.jpeg",
-        category: "category1"
+        image: "images/product1.jpeg"
     },
     {
         name: "Product 2",
         description: "Description for Product 2",
-        image: "images/product2.jpg",
-        category: "category2"
+        image: "images/product2.jpg"
     }
 ];
 
@@ -22,114 +19,120 @@ const profiles = [
     {
         name: "Juan Pérez",
         skills: "Full Stack Developer",
-        image: "images/profile1.webp",
-        role: "developer"
+        image: "images/profile1.webp"
     },
     {
         name: "Ana García",
         skills: "UI/UX Designer",
-        image: "images/profile2.jpeg",
-        role: "designer"
+        image: "images/profile2.jpeg"
     }
 ];
 
-// Inject product cards into the product grid
+function openModal(content) {
+    const modal = document.getElementById('details-modal');
+    const modalBody = document.getElementById('modal-body');
+    modalBody.innerHTML = content;
+    modal.style.display = 'flex';
+}
+
+function closeModal() {
+    document.getElementById('details-modal').style.display = 'none';
+}
+
+function openAddModal(type) {
+    const addModal = document.getElementById('add-modal');
+    const productForm = document.getElementById('add-product-form');
+    const profileForm = document.getElementById('add-profile-form');
+    
+    productForm.style.display = type === 'product' ? 'block' : 'none';
+    profileForm.style.display = type === 'profile' ? 'block' : 'none';
+    
+    addModal.style.display = 'flex';
+}
+
+function closeAddModal() {
+    document.getElementById('add-modal').style.display = 'none';
+}
+
 const productGrid = document.querySelector('.product-grid');
+products.forEach(product => {
+    productGrid.innerHTML += createProductCard(product);
+});
+
 const portfolioGrid = document.querySelector('.portfolio-grid');
+profiles.forEach(profile => {
+    portfolioGrid.innerHTML += createPortfolioCard(profile);
+});
 
-// Function to render products
-function renderProducts() {
-    productGrid.innerHTML = products.map(product => createProductCard(product)).join('');
-}
+productGrid.addEventListener('click', (e) => {
+    const card = e.target.closest('.product-card');
+    if (card) {
+        const productName = card.dataset.name;
+        const product = products.find(p => p.name === productName);
+        openModal(`
+            <h2>${product.name}</h2>
+            <img src="${product.image}" alt="${product.name}">
+            <p>${product.description}</p>
+        `);
+    }
+});
 
-// Function to render profiles
-function renderProfiles() {
-    portfolioGrid.innerHTML = profiles.map(profile => createPortfolioCard(profile)).join('');
-}
+portfolioGrid.addEventListener('click', (e) => {
+    const card = e.target.closest('.portfolio-card');
+    if (card) {
+        const profileName = card.dataset.name;
+        const profile = profiles.find(p => p.name === profileName);
+        openModal(`
+            <h2>${profile.name}</h2>
+            <img src="${profile.image}" alt="${profile.name}">
+            <p>${profile.skills}</p>
+        `);
+    }
+});
 
-// Initial rendering
-renderProducts();
-renderProfiles();
-
-// Handle form submission
 document.getElementById('contact-form').addEventListener('submit', (e) => {
     e.preventDefault();
     alert('Thank you for your message! We will get back to you soon.');
 });
 
-// Dark mode functionality
-function toggleDarkMode() {
+document.getElementById('toggle-dark-mode').addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
-    localStorage.setItem('dark-mode', document.body.classList.contains('dark-mode'));
-}
-
-// Check for saved dark mode preference
-window.addEventListener('load', () => {
-    if (localStorage.getItem('dark-mode') === 'true') {
-        document.body.classList.add('dark-mode');
-    }
 });
 
-// Add event listener to the dark mode toggle button
-document.getElementById('toggle-dark-mode').addEventListener('click', toggleDarkMode);
-
-// Add product functionality
 document.getElementById('add-product-btn').addEventListener('click', () => {
-    const name = prompt('Enter product name:');
-    const description = prompt('Enter product description:');
-    const image = prompt('Enter product image URL:');
-    const category = prompt('Enter product category:');
-
-    if (name && description && image && category) {
-        products.push({ name, description, image, category });
-        renderProducts();
-    }
+    openAddModal('product');
 });
 
-// Add profile functionality
 document.getElementById('add-profile-btn').addEventListener('click', () => {
-    const name = prompt('Enter profile name:');
-    const skills = prompt('Enter profile skills:');
-    const image = prompt('Enter profile image URL:');
-    const role = prompt('Enter profile role:');
+    openAddModal('profile');
+});
 
-    if (name && skills && image && role) {
-        profiles.push({ name, skills, image, role });
-        renderProfiles();
+document.getElementById('add-product-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('product-name').value;
+    const description = document.getElementById('product-description').value;
+    const image = document.getElementById('product-image').value;
+    products.push({ name, description, image });
+    productGrid.innerHTML += createProductCard({ name, description, image });
+    closeAddModal();
+});
+
+document.getElementById('add-profile-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('profile-name').value;
+    const skills = document.getElementById('profile-skills').value;
+    const image = document.getElementById('profile-image').value;
+    profiles.push({ name, skills, image });
+    portfolioGrid.innerHTML += createPortfolioCard({ name, skills, image });
+    closeAddModal();
+});
+
+document.querySelector('.modal').addEventListener('click', (e) => {
+    if (e.target.classList.contains('modal')) {
+        closeModal();
     }
 });
 
-// Search and filter functionality for products
-document.getElementById('search-bar').addEventListener('input', filterProducts);
-document.getElementById('filter-select').addEventListener('change', filterProducts);
+document.querySelector('.close-btn').addEventListener('click', closeModal);
 
-function filterProducts() {
-    const searchTerm = document.getElementById('search-bar').value.toLowerCase();
-    const selectedCategory = document.getElementById('filter-select').value;
-
-    const filteredProducts = products.filter(product => {
-        const matchesSearch = product.name.toLowerCase().includes(searchTerm);
-        const matchesCategory = selectedCategory === '' || product.category === selectedCategory;
-        return matchesSearch && matchesCategory;
-    });
-
-    productGrid.innerHTML = filteredProducts.map(product => createProductCard(product)).join('');
-}
-
-// Search and filter functionality for profiles
-document.getElementById('search-bar-portfolio').addEventListener('input', filterProfiles);
-document.getElementById('filter-select-portfolio').addEventListener('change', filterProfiles);
-
-function filterProfiles() {
-    const searchTerm = document.getElementById('search-bar-portfolio').value.toLowerCase();
-    const selectedRole = document.getElementById('filter-select-portfolio').value;
-
-    const filteredProfiles = profiles.filter(profile => {
-        const matchesSearch = profile.name.toLowerCase().includes(searchTerm);
-        const matchesRole = selectedRole === '' || profile.role === selectedRole;
-        return matchesSearch && matchesRole;
-    });
-
-    portfolioGrid.innerHTML = filteredProfiles.map(profile => createPortfolioCard(profile)).join('');
-}
-
+document.getElementById('close-add-modal').addEventListener('click', closeAddModal);
